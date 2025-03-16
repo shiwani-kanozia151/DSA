@@ -1,0 +1,129 @@
+/*************************************************************   RECURSION  ********************************************************************/ 
+
+1. here basically we have choices and we have to take decisions based on it.. with this the input is becoming smaller only after taking the decisions.
+2. like we need to find the subset of a string "abc" here the subset includes {}, {a}, {b}, {c}, {a,b}, {a,c}, {b,c}, {a,b,c}
+3. see for {} ---> a(not taking 0), b(not taking 0), c(not taking 0).. //so here we have 2 choices for every char whether to take or not to take ..
+       for{a} ---> a(taking 1), b(not taking 0), c(not taking 0)..
+       for{b} ---> a(not taking 0), b(taking 1), c(not taking 0)..
+       for{c} ---> a(not taking 0), b(not taking 0), c(taking 1)..
+       for{a,b}---> a(taking 1), b(taking 1), c(not taking 0)..
+       for{b,c}---> a(not taking 0), b(taking 1), c(taking 1)..
+       for{a,c}---> a(taking 1), b( not taking 0), c(taking 1)..
+       for{a,b, c}---> a(taking 1), b(taking 1), c(taking 1).. 
+
+4. as to give a proper representation to these decision for this we are using a recursive tree diagram approach .. the input/output method...
+     output                input
+      |                      |
+      |                      | 
+    output1 input         output2 input
+
+5.  for any recursion related problem there are 2 things to keep in mind 
+     i. design the recursive tree..
+     ii. code the problem..
+
+6. Recursion is basically everywhere like it can be used to solve the problems based on arrays, strings, trees, graphs, heap, dp, backtracking, divide and conquer
+   and many more data structures uses recursion.
+
+7. NEW METHOD
+  Base Condition + Hypothesis + Induction
+  base condition: think of the smallest valid input ....
+
+8. 3 methods to solve a recursive problem
+   i. using the the recursive tree approach ( when we know about DECISIONS)
+  ii. using the base condition, induction and hypothesis approach (input ko smaller krna hai us case me ise use krte hai)
+ iii. using the choice diagram approach (usually using it in dp )
+
+9. basically in case of IBH we dont need to go till leaf node thats why the problem that are solve using this approach is like we will think that if this is working for
+   this input then it will also work one less than that input as well.
+
+10. simple    -------> IBH
+    medium    --------> recursive tree
+    hard      --------> choice diagram
+
+11.  explaining the IBH approach using one example printing 1 to n using recursion
+     void print(int n)
+     {
+         if(n==1) // base condition .....
+         {
+            cout<<n;       
+            return;
+         }
+
+         print(n-1); // hypothesis.....
+         cout<<n;// induction....
+    }
+
+//see basically hypothesis ko hum kaise bhi design kr sakte hai bus jo difference ata hai voh ata hai use work krane me voh depend krta hai induction step me ki usme kya
+code likhne vale ho...
+
+12. height of the binary tree using recursion..
+   see here in this problem basically first we will think for the input given to us --> root of the tree..
+   then base case --> root==NULL return 0; as the answer.
+   then the hypothesis wil be going towards the smaller input here the smaller input will be left subtree and right subtree basically..
+   then the induction part is there which is here in this case is finding the max(lh, rh)+1; here finding the max is because there might be case like either of 2, there
+   might be one side longer than the other.. and adding 1 because that particular node also be included. 
+
+13. sorting an array using recursion...
+    as to sort an array basically here we will need to use recursion 2 times one for sorting logic and one for inserting like while sorting we need to insert the elements 
+    at the right position so for this we need another recursive function..
+   
+   void sort(vector<int>&arr)
+   {
+       if(arr.size()==1) return;
+       
+       int temp=arr[arr.size()-1]; //start of hypothesis...
+       arr.pop_back();
+       
+       sort(arr);  //end of hypothesis...
+       insert(arr, temp); //induction...
+  }
+
+ void insert(vector<int>&arr, int x)
+ {
+    if(arr.size()==0 || arr.back()<x)
+    {
+       arr.push_back(x);
+       return;
+    }
+
+   int temp=arr[arr.size()-1]; //start of hypothesis...
+   arr.pop_back();
+
+   insert(arr, x); //end of hypothesis....
+   arr.push_back(temp); //induction...
+
+ }
+
+
+14. sorting a stack .
+    the approach to sort a stack is exactly same as the sorting the array there is only minor changes in this
+
+    void sort(stack<int>&st)
+   {
+       if(st.size()==1) return;
+       
+       int temp=st.top(); //start of hypothesis...
+       st.pop();
+       
+       sort(st);  //end of hypothesis...
+       insert(st, temp); //induction...
+  }
+
+ void insert(stack<int>&st, int x)
+ {
+    if(st.size()==0 || st.top()<=x)
+    {
+       st.push(x);
+       return;
+    }
+
+   int temp=st.top(); //start of hypothesis...
+   st.pop();
+
+   insert(st, x); //end of hypothesis....
+   st.push(temp); //induction...
+
+ }
+
+
+15. 

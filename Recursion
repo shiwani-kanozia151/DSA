@@ -126,4 +126,173 @@ code likhne vale ho...
  }
 
 
-15. 
+15. Deleting the middle element of the stack...
+    
+   basically i got the idea to solve this problem by myself here in this problem 
+   i. find the size of the st and the indexof the middle element by n/2+1;
+  ii. then write a void function which is using recursion..
+      base condition: if(count==k-1) st.pop(); return; //first passing count as 0 after reaching to k-1 then simply just pop the element
+      induction and hypothesis keep on putting the top element in a variable as soon as the base condition hit the kth 
+      element has been removed and after that push the popped element to the top of the stack like thta...
+
+  CODE: 
+
+  class Solution {
+  public:
+    // Function to delete middle element of a stack.
+    void solve(stack<int>&st, int count, int k)
+    {
+        if(count==k-1)//base case..
+        {
+            st.pop();
+            return;
+        }
+        
+        int temp=st.top();//hypothesis start...
+        st.pop();
+        
+        solve(st, count+1, k);//hypothesis end...
+        
+        st.push(temp);//induction....
+    }
+    void deleteMid(stack<int>& s) {
+        // code here..
+        int n=s.size();
+        int k;
+        
+         k=(n/2)+1;
+         
+        return solve(s, 0, k);
+    }
+};
+
+
+16. Reversing a stack using recursion..
+ here basically imagine the case of hypothesis how it is working 
+ like if we are given with a stack[2,3,4,5] then required output will be [5,4,3,2]
+ then call the function for [3,4,5[ then required output will be [5,4,3]..
+ then call the functon [4,5] then required output will be [5,4] .
+but one thing is there whne we will be [4,5] expecting [5,4,3] so for that first we need to pop the all the element from
+the stack and after that we will need to put the required element at bottom and then again push all the elements..
+
+CODE:
+
+class Solution{
+public:
+    
+    void insert(stack<int> &St, int x)
+    {
+        if(St.empty()) //base case
+        {
+            St.push(x);
+            return;
+        }
+         
+        int temp=St.top();//hypothesis starting..
+        St.pop();
+        
+        insert(St, x);//hypothesis end...
+        
+        St.push(temp); //induction....
+    }
+    void Reverse(stack<int> &St){
+        
+        if(St.size()==0) //base condition....
+         return;
+         
+        int temp=St.top();//hypothesis start...
+        St.pop();
+        
+        Reverse(St); //hypothesis end...
+        
+        insert(St, temp);//induction .....
+    }
+};
+
+
+
+16. Kth symbol in grammar
+    if N=0 and K=0 return 0.
+  N=0     0
+  N=1     0 1
+  N=2     0 1 1 0
+  N=3     0 1 1 0 1 0 0 1
+  N=4     0 1 1 0 1 0 0 1 1 0 0 1 0 1 1 0 
+  N=5    ........
+
+ see in this problem they will ask like tell the digit which is present at particular N and K like 4,6 -->0 
+ this means 4th row and 6th column 
+ here we have noticed that the elements present in a particular row is 2^n ..
+
+so here 1 thing to observe is that if we are moving to the next row then the half bits are same as the above row and
+half bits are the complement of the above row. so this will help to design the algo 
+
+base case: if N=0 && K=0 return 0;
+mid=pow(2,N)/2
+if(K<=N) //agr less than N hoga toh upper vale se same hoga..
+ solve(N-1, k);
+else
+ !solve(N-1, k-mid)//agr more than N hoga toh mid se minus krna padega K ko and uska complement nikalna padega
+                    then only we will be able to get the exact answer what we want.
+
+ CODE:
+
+          if(n==1 && k==1)
+             return 0;
+
+          int mid=pow(2,n-1)/2;
+
+          if(k<=mid)
+           return kthGrammar(n-1,k);
+          else 
+           return !(kthGrammar(n-1,k-mid));   
+
+
+
+17. Tower of Hanoi
+     HINDU METHODOLOGY:
+     there is a temple in south of brahma god and while creating the universe he had told priests to transwer all the plate
+     from towerA to TowerC with the help of TowerB and he told 2 conditions that
+     i. only 1 plate transer from one tower to another in one time
+    ii. and large plate can't be place over the small plate.
+  he gave 64 plates in towerA and told them to transfer it to the towerC with the help of towerB..
+  the problem is looking very easy but it is not that much easy to transfer a plate 1 sec is required so to transfer 64 paltes
+  it is required 2^64 time which is very huge 2^30 is 1billion and it will be 2^4*2^302^30 = 16billion .
+
+  so to solve this problem we are using recursion..
+  base case: if(n==1) move plate from towerA to towerC 
+
+   calling for n-1 plates for that we should take help from towerB
+   solve(n, s-->d, h)
+   solve(n-1, s-->h, d)
+
+ //program to count how much conversion needs to transfer a bunch of plates from A to C.
+    class Solution {
+  public:
+    // You need to complete this function
+    int count=0;
+    void solve(int n, int from, int to, int aux)
+    {
+        if(n>0)
+        {
+             solve(n-1, from, aux, to);
+       
+             count++;
+        
+             solve(n-1, aux, to, from);
+        }
+      
+        
+    }
+    int towerOfHanoi(int n, int from, int to, int aux) {
+        
+        solve(n, from, to, aux);
+        
+        return count;
+    }
+};
+
+
+
+18.   
+      

@@ -1,4 +1,4 @@
-/*************************************************************   RECURSION  ********************************************************************/ 
+/*********************************   RECURSION  ********************************/ 
 
 1. here basically we have choices and we have to take decisions based on it.. with this the input is becoming smaller only after taking the decisions.
 2. like we need to find the subset of a string "abc" here the subset includes {}, {a}, {b}, {c}, {a,b}, {a,c}, {b,c}, {a,b,c}
@@ -294,5 +294,120 @@ else
 
 
 
-18.   
-      
+18.   PRINT SUBSETS AND POWERSET 
+      given: "ab"  output: "", "a", "b", "ab"
+
+      RECURSIVE TREE..
+
+                       op                     ip
+                       ""                    "ab"
+                                     |
+         (not taking) op1   ip1           (taking) op2 ip2 
+                      ""    "b"                    "a"  "b"
+                         |                             |
+           op1  ip1           op2   ip2        op1  ip1         op2   ip2
+           ""    ""           "b"   ""          "a"  ""         "ab"   ""    
+
+
+   solve(string op, string ip)
+   {
+        if(ip.size()==0)
+        {
+           cout<<op;
+            return;
+        }
+
+        string op1=op;
+        string op2=op;
+
+        op2.push_back(ip[0]);
+        ip.erase(ip.begin()+0);
+
+        solve(op1, ip); 
+        solve(op2, ip);
+   
+        return ;
+   }
+
+
+
+19. PRINT UNIQUE SUBSET AND VARIATIONS.. (when repeated characters are given)
+    To print the unique subset we are using set of string or we can use map to store them if it is already present in 
+    any of this data structure then no need to insert again ..
+
+
+
+20. PERMUTATION WITH SPACES..
+
+   given: "abc"  output: "a_bc", "a_b_c", "ab_c", "abc"
+
+                         op:"a"                  ip: "abc"  
+                                        |
+   (not taking space)op1       ip1               op2       ip2
+                    "ab"        "c"              "a_b"     "c"
+                          |                              |
+              op1  ip1         op2    ip2        op1     ip1      op2   ip2
+             "abc"  ""         "ab_c"  ""        "a_bc"  ""       "a_b_c" ""
+
+ 
+  string op:ip[0];
+  ip.erase(ip.begin()+0);
+
+   solve(string op, string ip)
+   {
+        if(ip.size()==0)
+        {
+            cout<<op;
+            return;
+        }
+
+         string op1=op;
+         string op2=op;
+         op1.push_back(ip[0]); 
+         op2.push_back("-");
+         op2.push_back(ip[0]);
+
+         ip.erase(ip.begin()+0);
+
+         solve(op1, ip);
+         solve(op2, ip);
+         return;
+  }
+
+
+21. PERMUTATION WITH CASE CHANGE
+     given: "ab"   output: "aB", "ab", "Ab", "AB" 
+
+                      op                      ip        
+                      ""                     "ab"
+                                  |
+                 op1    ip1                 op2   ip2
+                "a"     "b"                "A"   "b"
+                     |                           |
+           op1  ip1        op2   ip2        op1   ip1   op2   ip2
+          "ab"   ""        "aB"   ""         "Ab"  ""   "AB"  ""    
+
+
+
+    solve(String op, string ip)
+    {
+          if(ip.size()==0) 
+          {
+               cout<<op;
+               return;
+          }
+
+         string op1: op;
+         string op2:op;
+
+         op1.push_back(ip[0]);
+         op2.push_back(to_upper(ip[0]);
+
+         ip.erase(ip.begin()+0);
+
+         solve(op1, ip);
+         solve(op2, ip);
+     }
+
+
+22.  GENERATE ALL BALANCED PARANTHESES... 

@@ -1,0 +1,80 @@
+MATRIX CHAIN MULTIPLICATION (DYNAMIC PROGRAMMING) 
+
+********   for base condition   ******** 
+ i. think of the smallest valid input.
+ii. think of the invalid input. 
+
+MCM itself is a topic on which so many problems are based. The name of the problem which are based on the MCM format are:
+1. MCM
+2. Printing MCM
+3. Evaluate expression to true/boolean parenthesization
+4. Min/Max finding of an expression
+5. Palindrome Partitioning
+6. Scramble string
+7. Egg dropping problem
+
+****************  MCM  ******************
+in MCM basically we are having an array where there is 2 indexes i and j, in which i may start from start or might be around start and j may be at end or around end. 
+and in the recursive function we have a for loop k, which starts from i and end at j and in the loop we will find a temp ans which should be like that 
+ int tempans=solve(arr, i, k) + //this + may be - or any operator according to the question. 
+             solve(arr, k+1, j);  
+
+and in the same loop we are finding our main answer that will be like max or min ---> ans=max(ans, tempans);
+
+sometimes the k will be like k=i+1 instead of k=i and k=j+1 instead of k=j;
+
+The MCM itself is a approach to solve many problems like palidrome partioning and many more. so to solve this problem first like we will be given with a array of size n 
+and the number of matrixes we will be able to make is only n-1; 
+
+see how to choose index i;
+ if we start i from 0 then the matrixi will be formed as arr[i-1]*arr[i] but if i=0 then i-1 will be a negative indexso this will not work ..
+ therefor i will start from 1 instead of 0. 
+
+see how to choose index j;
+  if we will take j as n then it will be out of bound thats why we need to take j as n-1 ;
+
+calculating cost;
+ calculation of cost = arr[i-1]*arr[k]*arr[j];
+
+here basically we need to put parenthesis to such that the cost will be minimum so we need to check after putting parenthesis one by one and find the result as the minimum 
+cost so first in the recursive code we will be running a loop basically which will be shifting the parenthesis the loop will start from i to j and inside the loop we will
+be having a recursive call which is like solve(arr, i, k)+solve(arr, k+1, j)+(arr[i-1]*arr[j]*arr[k]) and a ans variable holding the min(ans, temp); 
+
+for the loop also we need to have first check whether ir will start from i or i+1 and till j or j-1 like that 
+in this case there are two possible ways to take k
+i. k=i to k=j and while calling i to k and k+1 to j;
+ii. k=i+1, k=j  and while calling i to k-1 and k to j;
+
+
+CODE:
+class Solution {
+  public:
+  
+  int t[101][101];
+    
+    int solve(vector<int>&arr, int i, int j)
+    {
+        if(i>=j) return 0;
+        
+        if(t[i][j] != -1) return t[i][j];
+        
+        int mini=INT_MAX;
+        
+        for(int k=i; k<j; k++)
+        {
+            int temp=(arr[i-1]*arr[k]*arr[j]) +
+                      solve(arr, i, k)+solve(arr, k+1, j);
+                     
+            
+            mini=min(mini, temp);
+        }
+        
+        return t[i][j]=mini;
+    }
+    int matrixMultiplication(vector<int> &arr) {
+        // code here
+        int n=arr.size();
+        memset(t, -1, sizeof(t));
+        return solve(arr, 1, n-1);
+    }
+};
